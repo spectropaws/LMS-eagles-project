@@ -2,11 +2,16 @@ import secrets
 import string
 import re
 
+USERNAME = "librarian"
+PASSWORD = "library@123"
+
+
 # Get token that generates random string
 def get_token(length=32):
     characters = string.ascii_letters + string.digits + string.punctuation
     token = ''.join(secrets.choice(characters) for i in range(length))
     return token
+
 
 # Validation function
 def validate_username_password(username, password):
