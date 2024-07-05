@@ -1,5 +1,5 @@
 import asyncio
-from .database import addUser, addBook, editBook, editUser, create_users_table, create_books_table, create_issues_table
+from .database import addUser, addBook, editBook, editUser, create_users_table, create_books_table, create_issues_table, getAllUsers, getAllBooks
 
 
 async def init():
@@ -52,3 +52,22 @@ async def updateBook(book_id, new_quantity, new_book_name):
         print(f"Updated book with ID '{book_id}' - new quantity: {new_quantity}, new book name: {new_book_name}")
     except Exception as e:
         print(f"Failed to update book: {e}")
+
+
+async def fetchAllUsers():
+    try:
+        users = await getAllUsers()
+        print("All users:", users)
+        return users
+    except Exception as e:
+        print(f"Failed to fetch users: {e}")
+        return []
+
+async def fetchAllBooks():
+    try:
+        books = await getAllBooks()
+        print("All books:", books)
+        return books
+    except Exception as e:
+        print(f"Failed to fetch books: {e}")
+        return []

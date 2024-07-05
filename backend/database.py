@@ -139,6 +139,21 @@ async def editUser(user_id, new_name):
         print(f"Failed to update user: {e}")
 
 
+async def getAllUsers():
+    """
+    Retrieves all users from the users table.
+    
+    :return: list of tuples, Each tuple contains userId and name
+    """
+    query = "SELECT userId, name FROM users"
+    try:
+        result = await runQuery(query, ())
+        return result
+    except Exception as e:
+        print(f"Failed to retrieve users: {e}")
+        return []   
+
+
 #---------------------------------------------------------------------------------------------------------
 
 
@@ -195,3 +210,18 @@ async def editBook(book_id, new_quantity, new_book_name):
         print(f"Updated book with ID '{book_id}' - new quantity: {new_quantity}, new book name: {new_book_name}")
     except Exception as e:
         print(f"Failed to update book: {e}")
+
+
+async def getAllBooks():
+    """
+    Retrieves all books from the books table.
+    
+    :return: list of tuples, Each tuple contains bookId, book_name, quantity, and number_of_issues
+    """
+    query = "SELECT bookId, book_name, quantity, number_of_issues FROM books"
+    try:
+        result = await runQuery(query, ())
+        return result
+    except Exception as e:
+        print(f"Failed to retrieve books: {e}")
+        return []
