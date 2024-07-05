@@ -4,9 +4,11 @@ from PIL import Image, ImageTk
 
 
 class SearchFrame(tk.Frame):
-    def __init__(self, parent, *args, **kwargs):
+    def __init__(self, parent, add_book, add_button_name, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
         self.parent = parent
+        self.add_book = add_book
+        self.add_button_name = add_button_name
         self.create_widgets()
 
         self.columnconfigure(0, weight=1)
@@ -25,12 +27,9 @@ class SearchFrame(tk.Frame):
         self.search_button.grid(row=0, column=1, padx=5)
 
         # Add Book button
-        self.add_book_button = tk.Button(self, text="Add Book", command=self.add_book, font=("Arial", 16))
+        self.add_book_button = tk.Button(self, text=self.add_button_name, command=self.add_book, font=("Arial", 16))
         self.add_book_button.grid(row=0, column=2, padx=5)
 
     def search(self):
         search_term = self.search_var.get()
         print(f"Searching for: {search_term}")
-
-    def add_book(self):
-        print("Add Book button clicked")

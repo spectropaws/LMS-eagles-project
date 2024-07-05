@@ -1,15 +1,13 @@
 import tkinter as tk
 from tkinter import ttk
 
-
 class EditWindow(tk.Toplevel):
-    def __init__(self, parent, current_name, current_quantity, submit_callback):
+    def __init__(self, parent, current_name, submit_callback):
         super().__init__(parent)
-        self.title("Edit Book")
+        self.title("Edit Member")
 
-        # Store current values
+        # Store current value
         self.current_name = tk.StringVar(value=current_name)
-        self.current_quantity = tk.IntVar(value=current_quantity)
 
         # Frame for padding
         padding_frame = ttk.Frame(self, padding="20 20 20 20")
@@ -20,25 +18,19 @@ class EditWindow(tk.Toplevel):
         self.name_entry = ttk.Entry(padding_frame, textvariable=self.current_name)
         self.name_entry.grid(row=0, column=1, padx=10, pady=5, sticky="ew")
 
-        # Label and Entry for changing quantity
-        ttk.Label(padding_frame, text="Change quantity:").grid(row=1, column=0, padx=10, pady=5)
-        self.quantity_entry = ttk.Entry(padding_frame, textvariable=self.current_quantity)
-        self.quantity_entry.grid(row=1, column=1, padx=10, pady=5, sticky="ew")
-
         # Submit button
         submit_button = ttk.Button(padding_frame, text="Submit", command=self.submit_changes)
-        submit_button.grid(row=2, columnspan=2, pady=10)
+        submit_button.grid(row=1, columnspan=2, pady=10)
 
         self.submit_callback = submit_callback
 
     def submit_changes(self):
-        # Retrieve updated values
+        # Retrieve updated value
         new_name = self.current_name.get()
-        new_quantity = self.current_quantity.get()
 
-        # Pass updated values back to main window or a callback function
+        # Pass updated value back to main window or a callback function
         if self.submit_callback:
-            self.submit_callback(new_name, new_quantity)
+            self.submit_callback(new_name)
 
         # Close the edit window
         self.destroy()

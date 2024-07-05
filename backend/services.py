@@ -1,7 +1,14 @@
 import asyncio
-from database import addUser, addBook, editBook, editUser
+from .database import addUser, addBook, editBook, editUser, create_users_table, create_books_table
 
-async def createUser(username):
+
+async def init():
+    await create_users_table()
+    await create_books_table()
+
+asyncio.run(init())
+
+async def createMember(username):
     try:
         await addUser(username)
         print(f"Created user with name '{username}'")
@@ -9,7 +16,7 @@ async def createUser(username):
         print(f"Failed to create user: {e}")
 
 
-async def updateUser(user_id, new_name):
+async def updateMember(user_id, new_name):
     """
     Updates the name of a user with the given user_id.
 
@@ -23,17 +30,12 @@ async def updateUser(user_id, new_name):
         print(f"Failed to update user: {e}")
 
 
-
-
-
-
 async def createBook(book_name, quantity, number_of_issues=0):
     try:
         await addBook(book_name, quantity, number_of_issues)
         print(f"Added book '{book_name}' with quantity '{quantity}' and number of issues '{number_of_issues}'")
     except Exception as e:
         print(f"Failed to add book: {e}")
-
 
 
 async def updateBook(book_id, new_quantity, new_book_name):

@@ -1,9 +1,14 @@
 from backend import services
 import tkinter as tk
+import asyncio
 from tkinter import ttk
 from components.scrollview import ScrollView
 from components.searchframe import SearchFrame
 from components.books import Book
+from components.addbook import AddBook
+from components.members import Member
+from components.addmember import AddMember
+
 app = tk.Tk()
 app.title("Authentication")
 app.geometry("1500x900")
@@ -37,18 +42,26 @@ notebook.pack(expand=True, fill='both')
 
 
 # Books Tab
-search_frame = SearchFrame(books_tab)
+def add_book():
+    new_book = AddBook(app, services.createBook)
+
+
+search_frame = SearchFrame(books_tab, add_book, "Add Book")
 search_frame.pack(expand=True, fill=tk.X, padx=400, pady=0)
 scroll_view = ScrollView(books_tab)
 scroll_view.pack(expand=True, fill='both', padx=50, pady=(0, 50))
 
 
-def update_book(book_id):
+def update_book(book_id, quantity, book_name):
     # Find the Book instance by book_id and update its information
-    for widget in scroll_view.scrollable_frame.winfo_children():
-        if isinstance(widget, Book) and widget.id == book_id:
-            widget.name_label.config(text=f"Name: {widget.name}")
-            widget.quantity_label.config(text=f"Quantity: {widget.quantity}")
+    try:
+        services.updateBook(book_id, quantity, book_name)
+        for widget in scroll_view.scrollable_frame.winfo_children():
+            if isinstance(widget, Book) and widget.id == book_id:
+                widget.name_label.config(text=f"Name: {widget.name}")
+                widget.quantity_label.config(text=f"Quantity: {widget.quantity}")
+    except Exception as e:
+        print(e)
 
 
 for i in range(10):
@@ -65,4 +78,43 @@ scroll_view.pack(expand=True, fill='both', padx=50, pady=(0, 50))
 
 # Update the scrollable_frame to fit its contents
 scroll_view.scrollable_frame.update_idletasks()
+
+
+# Members Tab
+
+def add_member():
+    new_member = AddMember(app, services.createMember)
+
+
+search_frame = SearchFrame(members_tab, add_member, "Add Member")
+search_frame.pack(expand=True, fill=tk.X, padx=400, pady=0)
+
+scroll_view = ScrollView(members_tab)
+scroll_view.pack(expand=True, fill='both', padx=50, pady=(0, 50))
+
+
+def update_member(member_id, new_name):
+    try:
+        asyncio.run(services.updateMember(member_id, new_name))
+        for widget in scroll_view.scrollable_frame.winfo_children():
+            if isinstance(widget, Member) and widget.id == member_id:
+                widget.name_label.config(text=f"Name: {widget.name}")
+    except Exception as e:
+        print(e)
+
+
+for i in range(10):
+    member = Member(scroll_view.scrollable_frame, 213, "John Doe", update_member)
+    scroll_view.add_widget(member)
+
+for i in range(10):
+    member = Member(scroll_view.scrollable_frame, 214, "Jane Smith", update_member)
+    scroll_view.add_widget(member)
+
+for i in range(10):
+    member = Member(scroll_view.scrollable_frame, 215, "Michael Brown", update_member)
+    scroll_view.add_widget(member)
+
+# Pack the scroll_view to display the members
+scroll_view.pack(expand=True, fill='both', padx=50, pady=(0, 50))
 app.mainloop()

@@ -12,7 +12,7 @@ async def runQuery(query, variables):
     :return: result of the query if it's a SELECT statement, otherwise None
     """
     def sync_query(query, variables):
-        connection = sqlite3.connect('database.db')
+        connection = sqlite3.connect('./database.db')
         cursor = connection.cursor()
         
         try:
@@ -32,7 +32,40 @@ async def runQuery(query, variables):
     loop = asyncio.get_event_loop()
     with ThreadPoolExecutor() as pool:
         return await loop.run_in_executor(pool, sync_query, query, variables)
-    
+
+
+# ------------------------ Tables creation ---------------------------
+# Create the User table in the database 
+async def create_users_table():
+    """
+    Creates the users table with userId and name columns.
+    """
+    query = """
+    CREATE TABLE IF NOT EXISTS users (
+        userId INTEGER PRIMARY KEY,
+        name TEXT NOT NULL
+    )
+    """
+    await runQuery(query, ())
+
+
+# Create the Book table in the database 
+async def create_books_table():
+    """
+    Creates the books table with bookId, book_name, quantity, and number_of_issues columns.
+    """
+    query = """
+    CREATE TABLE IF NOT EXISTS books (
+        bookId INTEGER PRIMARY KEY,
+        book_name TEXT NOT NULL,
+        quantity INTEGER NOT NULL,
+        number_of_issues INTEGER NOT NULL
+    )
+    """
+    await runQuery(query, ())
+
+# TODO create Issues table
+
 
 #----------------------------------------------------------------------------------------------------------
 

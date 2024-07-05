@@ -44,10 +44,8 @@ class Book(tk.Frame):
         # Update book information with new values
         self.name = new_name
         self.quantity = new_quantity
-
         # call function from services to update book in database
-
-        self.update(self.id)
+        self.update(self.id, self.name, self.quantity)
 
     def edit_book(self):
         edit_window = bookedit.EditWindow(self.parent, self.name, self.quantity, self.handle_submit_changes)
