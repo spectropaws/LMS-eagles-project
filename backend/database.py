@@ -64,7 +64,24 @@ async def create_books_table():
     """
     await runQuery(query, ())
 
-# TODO create Issues table
+
+# create Issues table
+async def create_issues_table():
+    """
+    Creates the issues table with issueId, bookId, memberId, bookName, and memberName columns.
+    """
+    query = """
+    CREATE TABLE IF NOT EXISTS issues (
+        issueId INTEGER PRIMARY KEY AUTOINCREMENT,
+        bookId INTEGER NOT NULL,
+        memberId INTEGER NOT NULL,
+        bookName TEXT NOT NULL,
+        memberName TEXT NOT NULL,
+        FOREIGN KEY (bookId) REFERENCES books (bookId),
+        FOREIGN KEY (memberId) REFERENCES users (userId)
+    )
+    """
+    await runQuery(query, ())
 
 
 #----------------------------------------------------------------------------------------------------------

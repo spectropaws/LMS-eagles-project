@@ -36,11 +36,8 @@ class AddMember:
         member_name = self.member_name_entry.get()
 
         # Start an asyncio event loop if one isn't running
-        loop = asyncio.get_event_loop()
-        if loop.is_running():
-            asyncio.create_task(self.add_member_async(member_name))
-        else:
-            loop.run_until_complete(self.add_member_async(member_name))
+        asyncio.run(self.add_member_async(member_name))
+        
 
         # Close the window after adding the member
         self.window.destroy()

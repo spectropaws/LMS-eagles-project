@@ -1,10 +1,11 @@
 import asyncio
-from .database import addUser, addBook, editBook, editUser, create_users_table, create_books_table
+from .database import addUser, addBook, editBook, editUser, create_users_table, create_books_table, create_issues_table
 
 
 async def init():
     await create_users_table()
     await create_books_table()
+    await create_issues_table()
 
 asyncio.run(init())
 

@@ -43,11 +43,8 @@ class AddBook:
         quantity = int(self.quantity_entry.get())
 
         # Start an asyncio event loop if one isn't running
-        loop = asyncio.get_event_loop()
-        if loop.is_running():
-            asyncio.create_task(self.add_book_async(book_name, quantity))
-        else:
-            loop.run_until_complete(self.add_book_async(book_name, quantity))
+        asyncio.run(self.add_book_async(book_name, quantity))
+        
 
         # Close the window after adding the book
         self.window.destroy()

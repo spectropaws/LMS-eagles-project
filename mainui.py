@@ -8,6 +8,8 @@ from components.books import Book
 from components.addbook import AddBook
 from components.members import Member
 from components.addmember import AddMember
+from components.issues import Issue
+from components.addissues import AddIssue
 
 app = tk.Tk()
 app.title("Authentication")
@@ -117,4 +119,44 @@ for i in range(10):
 
 # Pack the scroll_view to display the members
 scroll_view.pack(expand=True, fill='both', padx=50, pady=(0, 50))
+
+
+# Issues Tab
+
+def add_issue():
+    new_issue = AddIssue(app, services.createIssue)
+
+search_frame = SearchFrame(issues_tab, add_issue, "Add Issue")
+search_frame.pack(expand=True, fill=tk.X, padx=400, pady=0)
+
+scroll_view = ScrollView(issues_tab)
+scroll_view.pack(expand=True, fill='both', padx=50, pady=(0, 50))
+
+def return_book(issue_id, issue_name, new_quantity):
+    try:
+        # Implement return functionality in services
+        asyncio.run(services.returnIssue(issue_id, issue_name, new_quantity))
+    except Exception as e:
+        print(e)
+
+
+# Add issues to scroll_view
+for i in range(10):
+    issue = Issue(scroll_view.scrollable_frame, 1, "Small penis", 321, "Johnny sins", return_book)  # Replace with actual issue details
+    scroll_view.add_widget(issue)
+
+for i in range(10):
+    issue = Issue(scroll_view.scrollable_frame, 1, "Big penis", 321, "Johnny sins", return_book)  # Replace with actual issue details
+    scroll_view.add_widget(issue)
+
+for i in range(10):
+    issue = Issue(scroll_view.scrollable_frame, 1, "African penis", 321, "Johnny sins", return_book)  # Replace with actual issue details
+    scroll_view.add_widget(issue)
+
+# Pack the scroll_view to display issues
+scroll_view.pack(expand=True, fill='both', padx=50, pady=(0, 50))
+
+# Update the scrollable_frame to fit its contents
+scroll_view.scrollable_frame.update_idletasks()
+
 app.mainloop()
